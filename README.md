@@ -73,6 +73,21 @@ If a target path exists and is not already a symlink, it is moved to
 `<path>.bak` before the new symlink is created. Already-existing symlinks
 are replaced silently.
 
+## Supported platforms
+
+The install scripts use plain portable Bash (`ln -sfn`, `mkdir -p`, `mv`)
+and do not depend on macOS-specific tooling.
+
+| Platform      | Status                                                      |
+| ------------- | ----------------------------------------------------------- |
+| **macOS**     | Tested.                                                     |
+| **Linux**     | Expected to work — not actively tested. Please open an issue if something breaks. |
+| **Windows**   | Not supported natively. Use **WSL2** (Ubuntu / Debian) — from inside WSL the Linux path applies. |
+
+Requirements on any platform: `bash`, `python3` (for the codex-agent
+renderer), and `git`. `nosecrets` is optional but recommended — see
+below.
+
 ## Single source of truth
 
 `agents/*.md` is the **only** place to edit agent prompts.
