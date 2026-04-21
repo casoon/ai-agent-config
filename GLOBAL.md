@@ -3,35 +3,57 @@
 This file is loaded by Claude Code for every project.
 Keep it short. Stack-specific knowledge belongs in Skills, project-specific rules belong in the project's CLAUDE.md.
 
+## Core principles
+
+- Do exactly what is asked — no more, no less.
+- Prefer modifying existing code over adding new files.
+- Minimize surface area of changes.
+- Avoid speculative improvements unless explicitly requested.
+
 ## Working style
 
 - Start non-trivial tasks with a brief plan before making changes.
-- Prefer small, reviewable changes over broad rewrites.
+- Break work into small, reviewable steps.
 - Reuse existing project patterns before introducing new abstractions.
-- State assumptions explicitly when requirements leave room for interpretation.
-- Prefer explicit over clever — code should be readable without context.
+- State assumptions explicitly when requirements are unclear.
+- Stop and ask if multiple valid approaches exist with different trade-offs.
 
 ## Validation
 
 - Run targeted checks first: typecheck, lint, focused tests.
-- Prefer narrow validation over broad test suites unless the task scope requires it.
+- Avoid running full test suites unless necessary.
 - Mention what was validated and what was not.
-- Flag risky or hard-to-reverse changes before executing them.
+- Flag risky, destructive, or hard-to-reverse changes before executing them.
 
 ## Code quality
 
-- Keep naming explicit and readable.
-- Avoid hidden side effects.
-- Preserve public APIs unless change is explicitly requested.
-- Do not introduce new dependencies without a short reason.
-- Less code is usually better than more abstraction.
-- Do not add error handling for scenarios that cannot happen — trust internal guarantees.
+- Prefer explicit, readable code over cleverness.
+- Keep naming consistent with the surrounding codebase.
+- Avoid hidden side effects and implicit behavior.
+- Preserve public APIs unless explicitly asked to change them.
+- Do not introduce new dependencies without a clear justification.
+- Prefer deletion over addition when possible.
+- Do not add defensive code for impossible states — trust invariants.
+
+## Scope control
+
+- Do not fix unrelated issues.
+- Do not reformat unrelated code.
+- Do not upgrade dependencies unless required.
+- Do not refactor outside the task scope.
 
 ## Communication
 
-- Summarize the outcome in one or two lines.
-- Mention follow-up items or risks only when they matter.
-- Do not restate what was just done — the diff speaks for itself.
+- Summarize outcome in 1–2 lines.
+- Only mention risks or follow-ups if they matter.
+- Do not explain obvious changes.
+- Do not restate the diff.
+
+## Output
+
+- Prefer minimal, direct answers.
+- Avoid long explanations unless explicitly requested.
+- Show only relevant code snippets, not entire files.
 
 ---
 
