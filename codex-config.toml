@@ -1,0 +1,13 @@
+profile = "default"
+
+[profiles.default]
+model_reasoning_effort = "medium"
+approval_policy = "untrusted"
+
+[profiles.deep]
+model_reasoning_effort = "high"
+approval_policy = "untrusted"
+
+[profiles.fast]
+model_reasoning_effort = "low"
+approval_policy = "untrusted"
