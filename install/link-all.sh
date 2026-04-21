@@ -5,5 +5,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 bash "$SCRIPT_DIR/link-claude.sh"
 bash "$SCRIPT_DIR/link-codex.sh"
+bash "$SCRIPT_DIR/link-mistral.sh"
 
 echo "All configs linked."

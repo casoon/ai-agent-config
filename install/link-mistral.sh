@@ -1,42 +1,54 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Placeholder for Mistral Vibe CLI integration.
-#
-# Vibe config lives at ~/.vibe/config.toml and uses array fields for skill and
-# agent directories (skill_paths, agent_paths, tool_paths). Unlike Claude and
-# Codex, Vibe does not consume a top-level instructions file (no CLAUDE.md /
-# AGENTS.md analogue in the schema as of now), and the agent file format is
-# unconfirmed.
-#
-# When activating this script in the future:
-#   1. Decide whether codex-agents/ (TOML) is compatible with Vibe, or whether
-#      a separate vibe-agents/ target is needed.
-#   2. Replace the exit below with a TOML edit that appends the repo paths to
-#      skill_paths and agent_paths in ~/.vibe/config.toml (idempotent — skip
-#      entries that already exist).
-#   3. Update README.md install table and install/link-all.sh.
+BASE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+TARGET="$HOME/.vibe/config.toml"
 
-echo "link-mistral.sh: placeholder — Mistral Vibe integration not yet wired up."
-echo "  See comments in this file for the intended approach."
-exit 0
+if [ ! -f "$TARGET" ]; then
+  echo "skip: $TARGET not found — Vibe CLI not installed or not yet configured."
+  exit 0
+fi
 
-# --- Sketch for later ------------------------------------------------------
+# Inject skill_paths and agent_paths into ~/.vibe/config.toml using stdlib only.
+# Idempotent: skips entries that are already present.
 #
-# BASE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-# TARGET="$HOME/.vibe/config.toml"
-#
-# if [ ! -f "$TARGET" ]; then
-#   echo "error: $TARGET not found — is Vibe CLI installed?" >&2
-#   exit 1
-# fi
-#
-# python3 - "$BASE" "$TARGET" <<'PY'
-# import sys, tomllib, pathlib
-# base, target = sys.argv[1], pathlib.Path(sys.argv[2])
-# cfg = tomllib.loads(target.read_text())
-# # TODO: inject "$base/skills" into cfg["skill_paths"] and
-# #       "$base/codex-agents" (or a dedicated vibe-agents/) into
-# #       cfg["agent_paths"], write back preserving comments (tomllib
-# #       does not — consider tomlkit).
-# PY
+# codex-agents/ TOML format is reused for Vibe agents as a best-effort assumption.
+# If Vibe ships an incompatible agent schema, introduce a dedicated vibe-agents/ target
+# and update the agents_path variable accordingly.
+python3 - "$BASE" "$TARGET" <<'PY'
+import sys, pathlib, re
+
+base   = pathlib.Path(sys.argv[1])
+target = pathlib.Path(sys.argv[2])
+
+skills_path = str(base / "skills")
+agents_path = str(base / "codex-agents")
+
+text = target.read_text()
+
+def inject(text, key, value):
+    # Match:  key = [ ... ]  (single or multi-line)
+    pattern = rf'({re.escape(key)}\s*=\s*\[)(.*?)(\])'
+    m = re.search(pattern, text, re.DOTALL)
+    if m:
+        inner = m.group(2)
+        if f'"{value}"' in inner or f"'{value}'" in inner:
+            print(f"  {key} already contains {value!r} — skipped")
+            return text
+        if inner.strip():
+            replacement = m.group(1) + inner.rstrip() + f',\n  "{value}"\n' + m.group(3)
+        else:
+            replacement = m.group(1) + f'"{value}"' + m.group(3)
+        print(f"  added {value!r} to {key}")
+        return text[:m.start()] + replacement + text[m.end():]
+    # Key not present — append it
+    text = text.rstrip("\n") + f'\n{key} = ["{value}"]\n'
+    print(f"  created {key} = [{value!r}]")
+    return text
+
+text = inject(text, "skill_paths", skills_path)
+text = inject(text, "agent_paths", agents_path)
+target.write_text(text)
+PY
+
+echo "Vibe config updated: $TARGET"
