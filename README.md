@@ -93,6 +93,18 @@ The same hook also runs [`nosecrets`](https://github.com/casoon/nosecrets)
 against the staged files and aborts the commit on findings. If `nosecrets`
 is not on `PATH` the scan is skipped with a warning.
 
+## Memory scope
+
+This repo manages the **global** layer of Claude Code's memory system — the
+per-user `CLAUDE.md` (and Codex's `AGENTS.md`), plus reusable skills and
+subagent prompts. It deliberately does **not** cover:
+
+- **Project memory** — each project's own `CLAUDE.md` lives in that
+  project's repo, not here.
+- **Conversational memory** — Claude Code's per-session auto-memory under
+  `~/.claude/projects/…` is machine-local, often personal, and must never
+  be committed to a shared baseline.
+
 ## Private additions
 
 `GLOBAL.md` ends with a marked "private section". Personal specifics —
