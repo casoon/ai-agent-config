@@ -89,9 +89,30 @@ hook once per clone:
 git config core.hooksPath .githooks
 ```
 
-The same hook also runs [`nosecrets`](https://github.com/casoon/nosecrets)
-against the staged files and aborts the commit on findings. If `nosecrets`
-is not on `PATH` the scan is skipped with a warning.
+### Pre-commit hook
+
+`.githooks/pre-commit` does two things on every commit:
+
+1. Regenerates `codex-agents/*.toml` from `agents/*.md` and stages the
+   result, so the Codex-side prompts can never drift out of sync with
+   the Markdown sources.
+2. Runs [`nosecrets`](https://github.com/casoon/nosecrets) against the
+   staged files and aborts the commit on findings.
+
+If `nosecrets` is not installed, the hook prints a visible error and
+**continues** — the commit is not blocked, but nothing was scanned.
+Install one-off per machine:
+
+```sh
+# curl (macOS / Linux, installs a prebuilt binary)
+curl -fsSL https://raw.githubusercontent.com/casoon/nosecrets/main/install.sh | sh
+
+# or via npm
+npm install -g @casoon/nosecrets
+
+# or via cargo
+cargo install nosecrets-cli
+```
 
 ## Memory scope
 
