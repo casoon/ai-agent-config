@@ -1,0 +1,16 @@
+profile = "default"
+
+[profiles.default]
+model_reasoning_effort = "medium"
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+
+[profiles.deep]
+model_reasoning_effort = "high"
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+
+[profiles.fast]
+model_reasoning_effort = "low"
+approval_policy = "never"
+sandbox_mode = "danger-full-access"

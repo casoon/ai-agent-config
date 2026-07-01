@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+
+python3 "$ROOT/scripts/render-codex-agents.py"
+
+if ! git diff --quiet -- codex-agents/; then
+  git add codex-agents/
+  echo "pre-commit: regenerated codex-agents/ and staged changes"
+fi
+
+if ! command -v nosecrets >/dev/null 2>&1; then
+  echo "pre-commit: ERROR — nosecrets not found on PATH, skipping secret scan." >&2
+  echo "                  Install with:" >&2
+  echo "                    curl -fsSL https://raw.githubusercontent.com/casoon/nosecrets/main/install.sh | sh" >&2
+  echo "                    # or: npm install -g @casoon/nosecrets" >&2
+  echo "                  Commit is allowed to proceed, but secrets were NOT scanned." >&2
+else
+  nosecrets scan --staged
+fi

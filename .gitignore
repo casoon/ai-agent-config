@@ -1,0 +1,16 @@
+*.bak
+.DS_Store
+skills/.system/
+
+# Live Codex config: seeded from codex-config.example.toml by install/link-codex.sh,
+# then written to at runtime by Codex (marketplaces, project trust-levels).
+# Machine-specific — never committed. Edit codex-config.example.toml for the baseline.
+codex-config.toml
+
+# Python + editor artifacts inside skills
+__pycache__/
+*.pyc
+*.backup
+
+# Local Claude Code settings (machine-specific)
+.claude/settings.local.json
