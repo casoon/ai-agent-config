@@ -38,6 +38,22 @@ When writing the code, be careful of structuring your CSS selector specificities
 
 Try to do a lot of this planning and iteration in your thinking, and only show ideas to the user when you have higher confidence it'll delight them.
 
+## Absolute bans (match-and-refuse)
+
+If you're about to write any of these, stop and rewrite the element with different structure. These are the current AI tells — they appear regardless of brief, which is what makes them tells.
+
+- **Cream/sand/beige body background** as the "warm/editorial" default. The whole warm-neutral band (OKLCH L 0.84–0.97, C < 0.06, hue 40–100) reads as paper/parchment no matter what you name it — token names like `--cream`, `--sand`, `--bone`, `--linen`, `--parchment` are tells in themselves. Carry warmth via accent, type, and imagery — not the body bg. Pick a saturated brand body, a true chroma-0 off-white, or a clearly-branded mid-tone.
+- **Ghost cards:** `border: 1px solid X` **and** `box-shadow` with blur ≥16px on the same element. Pick one — a single solid border, OR a defined shadow ≤8px blur. Never both as decoration.
+- **Over-rounding:** cards/sections/inputs at `border-radius: 24px+`. Cards top out at **12–16px**; full-pill only for tags/buttons.
+- **Side-stripe accents:** `border-left`/`border-right` > 1px as a colored accent on cards, callouts, alerts. Use full borders, bg tints, or leading icons instead.
+- **Gradient text** (`background-clip: text` on a gradient). Single solid color; emphasize with weight/size.
+- **Glassmorphism as default.** Blur/glass only when rare and purposeful, never as the baseline surface.
+- **Eyebrows and 01/02/03 markers on every section.** One named kicker as a deliberate system is voice; the same scaffold above every heading is AI grammar. Numbers earn their place only when the section truly *is* an ordered sequence.
+- **Typographic ceilings:** hero `clamp()` max **≤ 6rem**; display letter-spacing floor **≥ -0.04em** (tighter and letters touch); body line length **65–75ch**.
+- **No em dashes** (or `--`) as connectors — use commas, colons, parentheses. And no `repeating-linear-gradient` stripe backgrounds, no hand-drawn/sketchy SVG "doodle" illustrations.
+
+**AI-slop test:** if someone could say "AI made that" without doubt, or could guess the palette from the category alone, rework the scene sentence and color strategy until the answer isn't obvious from the domain.
+
 ## Restraint and self-critique
 
 Spend your boldness in one place. Let the signature element be the one memorable thing, keep everything around it quiet and disciplined, and cut any decoration that does not serve the brief. Not taking a risk can be a risk itself! Build to a quality floor without announcing it: responsive down to mobile, visible keyboard focus, reduced motion respected. Critique your own work as you build, taking screenshots if your environment supports it – a picture is worth 1000 tokens. Consider Chanel's advice: before leaving the house, take a look in the mirror and remove one accessory. Human creators have memory and always try to do something new, so if you have a space to quickly jot down notes about what you've tried, it can help you in future passes.

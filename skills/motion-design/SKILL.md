@@ -551,6 +551,16 @@ Do not merely slow down animations for reduced-motion — remove them. The prefe
 
 ---
 
+## Micro-interaction details (polish)
+
+Exact values — these are thresholds, not suggestions:
+
+- **Never `transition: all`.** Always name the properties: `transition-property: transform, opacity`. `all` animates unintended properties and can trigger layout.
+- **Scale on press: `scale(0.96)`.** Never below `0.95` — anything smaller feels exaggerated. (`0.97` idle-press elsewhere in this doc is fine; `0.96` is the tactile default for buttons.)
+- **Interruptible vs one-shot.** Use CSS **transitions** for interactive state changes (hover/active/focus) — they can be interrupted mid-flight. Reserve **`@keyframes`** for staged sequences that run once (hero entrance, toast). Don't drive interactive state with keyframes.
+- **Icon swaps: cross-fade, don't toggle `display`.** Animate `opacity 0→1`, `scale 0.25→1`, `blur 4px→0`. With a motion library: `spring, duration 0.3, bounce 0` (bounce always 0). Without one: keep both icons in the DOM (one `absolute`) and cross-fade with `cubic-bezier(0.2, 0, 0, 1)`.
+- **Skip entrance animation on first paint** where a reveal would otherwise replay on load/tab-restore (e.g. `initial={false}` in AnimatePresence). Reveals must enhance already-visible content — never gate visibility on a transition that pauses on hidden tabs.
+
 ## Quality checklist
 
 Before delivering any animation code, verify each item:

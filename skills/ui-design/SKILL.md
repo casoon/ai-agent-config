@@ -62,6 +62,17 @@ Every interactive element needs a tier:
 
 Never have two primary buttons competing on the same screen. If everything shouts, nothing does.
 
+## 8. Micro-detail rules (polish)
+
+The details that separate "fine" from "feels crafted". Exact thresholds:
+
+- **Concentric border radius.** Nested rounded elements: `outer = inner + padding`. Same radius on parent and child is the most common thing that makes a UI feel off. Nested cards are always wrong anyway.
+- **Optical over geometric alignment.** When geometric centering looks off (icons in buttons, play triangles, asymmetric glyphs), nudge it optically. Trust the eye, not the box model.
+- **Tabular numbers.** Any number that updates in place (counters, timers, prices) gets `font-variant-numeric: tabular-nums` — otherwise it reflows on every change.
+- **Text wrapping.** `text-wrap: balance` on headings (h1–h3), `text-wrap: pretty` on body prose to kill orphans.
+- **Minimum hit area 40×40px.** Small controls (icon buttons, close X) extend their tap target with padding or a pseudo-element. Never let two hit areas overlap.
+- **Image outlines.** A subtle `1px` inset outline gives images consistent depth: `rgba(0,0,0,0.1)` in light mode, `rgba(255,255,255,0.1)` in dark — pure black/white, never a tinted near-black (it reads as dirt on the edge).
+
 ## Quick checklist for new pages
 
 - [ ] No pure `#000` / `#fff` — design tokens in use?

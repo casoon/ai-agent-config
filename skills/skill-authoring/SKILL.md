@@ -104,6 +104,25 @@ documented conditions, not by default.
 - **Iterate from real problems.** The best skills are extracted from actual
   failures, not designed up front.
 
+## Anti-pattern catalog (named)
+
+- **Kitchen Sink** — one skill covering many concerns. Split it.
+- **Orphan** — a skill nothing triggers / never loads. Delete or merge.
+- **Clone** — a narrow sibling of an existing skill. Extend the existing one instead.
+- **Script without Skill** — a `scripts/` folder with no SKILL.md saying when/how to use it.
+
+## Before writing: peer-match
+
+`ls` the target category and read 2–3 neighbouring SKILL.md first, to match tone
+and structure. **Prefer extending an existing skill over creating a narrow sibling.**
+
+## Frontmatter options
+
+- `description` names the trigger CLASS ("Use when debugging…") **plus** an explicit
+  **counter-trigger** ("Not for…") — this sharpens matching more than any keyword list.
+- `disable-model-invocation: true` for skills that should fire only when the user
+  explicitly asks (e.g. handoff, council-style) — prevents accidental auto-firing.
+
 ## Checklist for a new skill
 
 - [ ] Single category, clear `description` trigger
@@ -112,3 +131,6 @@ documented conditions, not by default.
 - [ ] Internal specifics only — nothing the agent already knows
 - [ ] Folder structure used where sub-documents add value
 - [ ] No overly rigid rules that eliminate the agent's judgment
+- [ ] `description` has a counter-trigger ("Not for…")
+- [ ] Peer-matched — extends rather than clones an existing skill
+- [ ] Verified after writing: frontmatter valid, path correct, committed
