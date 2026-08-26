@@ -1,11 +1,13 @@
 ---
 name: i18n
-description: Internationalization for Astro — URL-prefix routing (en at root, /de/ prefix), per-locale t() dictionaries, language switcher, localized OG images, and hreflang. Use when adding a new language, creating translated pages, fixing language switcher behavior, setting up hreflang links, or debugging locale routing. Covers the full setup: astro.config.mjs i18n config, translation files, localePath/switchLocalePath utilities, and per-locale static paths. Load this skill whenever locale, language, translation, or "German" comes up in an Astro context.
+description: Internationalization for Astro — URL-prefix routing, per-locale t() dictionaries, language switcher, localized OG images, and hreflang. Documents the astro-v7-template default (en at root, /de/ prefix) — individual projects can and do override this, always check the project's astro.config.mjs first. Use when adding a new language, creating translated pages, fixing language switcher behavior, setting up hreflang links, or debugging locale routing. Load this skill whenever locale, language, translation, or "German" comes up in an Astro context.
 ---
 
 # i18n
 
-## Architecture
+**Before applying any of this: check the project's `astro.config.mjs` for `defaultLocale`/`locales`/`prefixDefaultLocale`, and check whether `localePath`/`switchLocalePath`/`useTranslations` are actually imported anywhere in `src/pages`.** This skill documents the astro-v7-template default — projects frequently override the locale direction (e.g. a German-market site making `de` the unprefixed default), and some projects abandon the shared-dictionary pattern entirely in favor of hand-duplicated per-locale page files with hardcoded content. Don't assume either pattern without verifying against the actual project first.
+
+## Architecture (astro-v7-template default)
 
 Two layers:
 
@@ -16,6 +18,8 @@ Two layers:
 
 - `en` as default without prefix — `/`, `/contact`.
 - `de` prefixed — `/de/`, `/de/contact`.
+
+(Some projects flip this — `de` as the unprefixed default for a German-only market, `en` prefixed. Same mechanism, just swap which locale has the empty prefix in `astro.config.mjs` and `langPrefixes`/`routeMap`.)
 
 ## Astro config
 

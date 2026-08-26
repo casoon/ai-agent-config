@@ -14,3 +14,7 @@ sandbox_mode = "danger-full-access"
 model_reasoning_effort = "low"
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
+
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp@latest"]

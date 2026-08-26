@@ -35,6 +35,9 @@ Eine Quelle, auf `CLAUDE.md` + `AGENTS.md` + `GEMINI.md` verlinkt → einmal än
 ## Token-Effizienz-Modus (optional)
 Füllfloskeln unterbinden: „Gute Frage…", Wiederholung der Anfrage, Höflichkeits-Schluss. Bringt spürbar kürzere Antworten (Benchmarks: bis ~60% weniger Wörter, ~12% weniger Output-Tokens). **Trade-off:** die Config-Datei selbst kostet Input-Tokens — lohnt sich bei Automatisierung, vielen Reviews, Pipelines; bei gelegentlichen Einzelanfragen kaum.
 
+## MCP-Server: Kontextbudget
+Jeder aktive MCP-Server kostet Tokens **beim Session-Start** (Tool-Schemas werden vorab geladen) — grob ~55k Tokens pro Server, unabhängig davon, ob er in der Session je aufgerufen wird. Faustregel: **max. 3–5 aktive MCPs** pro Projekt-`.mcp.json`. Bei mehr: nicht dauerhaft aktivieren, sondern nur bei Bedarf (projektspezifische `.mcp.json` statt global, oder situativ per Flag zuschalten).
+
 ## Gotchas
 - **CLAUDE.md kurz halten** — sie ist immer geladen; jede Zeile ist Dauer-Token-Kost.
 - **Regeln ausführbar formulieren:** „bei Unklarheit nachfragen", nicht „sei schlau". Vgl. die Retrospektive-Disziplin in [[conversation-retrospective]].
