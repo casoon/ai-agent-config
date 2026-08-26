@@ -1,6 +1,6 @@
 ---
 name: anti-ai-copy
-description: Überarbeitet Kunden-Copy (Landingpages, Blog, Mails), damit sie nicht „nach ChatGPT klingt" — spezifisch, menschlich, mit Belegen. Nutzen, wenn Text zu glatt/generisch/SaaS-ig wirkt, „nach AI" klingt oder entschärft werden soll. NICHT für reine Rechtschreib-/Grammatik-Korrektur, juristische/regulatorische Texte oder wenn ausdrücklich konventioneller Corporate-Ton gewünscht ist.
+description: Überarbeitet Text jeder Art — Kunden-Copy, Blogartikel, Doku, interne Texte —, damit er nicht „nach ChatGPT klingt": spezifisch, menschlich, mit Belegen. Nutzen, wenn Text zu glatt/generisch/SaaS-ig wirkt, „nach AI" klingt oder entschärft werden soll — bei jeder Texterstellung als Nachbearbeitungsschritt relevant, nicht nur bei Marketing-Copy. NICHT für reine Rechtschreib-/Grammatik-Korrektur, juristische/regulatorische Texte oder wenn ausdrücklich konventioneller Corporate-Ton gewünscht ist.
 ---
 # Anti-AI-Copy
 
@@ -41,16 +41,64 @@ Entwurf gegen diese Liste scannen. Jeweils Kurz-Fix:
 - **Leere Superlative** („bahnbrechend", „revolutionär", „einzigartig") → streichen oder mit konkretem Beleg belegen.
 - **-ende-Anhängsel** („optimierend", „gewährleistend", „unterstreichend") → in einen eigenen Satz mit Aussage umbauen.
 - **Vage Autoritäten** („Experten sagen", „Studien zeigen") → Quelle nennen oder Aussage streichen.
-- **Bedeutungs-Aufblähung** („markiert einen Wendepunkt", „im Herzen von") → weglassen, Fakt behalten.
+- **Bedeutungs-Aufblähung** („markiert einen Wendepunkt", „im Herzen von", „ein Geflecht/Mosaik aus", „eine Reise durch") → weglassen, Fakt behalten.
 - **Adjektiv-Stapel** („nahtlos, leistungsstark, intuitiv") → durch eine konkrete Fähigkeit ersetzen.
 - **Filler/Hedging** („in der Lage sein zu", „es ist wichtig zu beachten", „könnte möglicherweise") → direkt sagen.
 - **Generischer Positiv-Schluss** („Die Zukunft ist rosig", „Spannende Zeiten") → durch nächsten konkreten Schritt ersetzen.
 - **Chatbot-Reste** („Gerne!", „Ich hoffe, das hilft", „Natürlich!") → ersatzlos raus.
 - **Header-Doppelung**: Überschrift, die der erste Satz nur wiederholt → ersten Satz streichen.
+- **„Was X wirklich Y"-Titel** („Was KI wirklich bedeutet", „Was diese Technologie verändert") → durch eine sachliche Aussage ersetzen (was es tut, nicht was es „wirklich" bedeutet).
 - **Gleichförmiger Rhythmus**: alle Sätze gleich lang → bewusst variieren, kurzen Satz stehen lassen.
+- **Namens-/Bezugswechsel**: dieselbe Person/Sache wird durchgehend umbenannt („der Protagonist... die Hauptfigur... der Held...") → einen Namen konsequent verwenden.
+- **Wiederholte Satzanfänge**: mehrere Sätze in Folge starten mit demselben Subjekt („Sie prüfte... Sie notierte... Sie meldete...") → zusammenziehen oder Subjekt wechseln. Bewusste Anapher als Stilmittel ist davon ausgenommen.
+- **Passiv ohne Akteur** („Es wird empfohlen...", „wurde umgesetzt") → wo es Klarheit bringt, den Akteur benennen.
+- **Fett-Mini-Überschriften in Listen** („**Performance:** wurde verbessert...") → als Fließtext schreiben, wenn die Liste keinen echten Mehrwert hat.
+- **Emoji-Dekoration** in Überschriften/Listenpunkten (🚀 💡 ✅) → ersatzlos streichen.
+- **Übertriebene Zustimmung** („Gute Frage!", „Du hast völlig recht!") → direkt antworten.
+- **Bindestrich-Inflation** bei Komposita („cross-funktional, daten-getrieben, kunden-orientiert" in jedem Satz) → Bindestrich nur setzen, wo Grammatik ihn verlangt.
+- **Falsche Tiefe** („Im Kern geht es eigentlich um...", „die eigentliche Frage ist...") → die Aussage direkt formulieren.
+- **Formelhafte Sprüche** („X ist die Sprache von Y", „X wird zur Falle") → durch die konkrete Behauptung ersetzen.
+- **Fake-Ehrlichkeit als Einstieg** („Ehrlich gesagt...", „Mal ehrlich...") vor einer gewöhnlichen Aussage → Aussage direkt bringen.
+- **Einwand beantworten, den niemand gestellt hat** („Hier geht es nicht in erster Linie um...", „Nicht, dass...") → nur streichen, wenn kein echter Einwand im Text vorkommt; sonst die Kernaussage direkt formulieren.
+- **Verworfene Scheinalternative** („Man könnte versucht sein, X zu tun, aber...") ohne dass X je wieder vorkommt → Scheinoption streichen, echte Randbedingung direkt nennen.
+- **Formelhafter Ausblick-Absatz** („Trotz dieser Herausforderungen... auf einem guten Weg") → Fakten behalten, Sales-Ausblick streichen.
+- **Wissens-Disclaimer/Rateversuch** („Informationen sind öffentlich nicht verfügbar, vermutlich...") → entweder klar sagen, was unbekannt ist, oder Satz streichen. Keine Vermutung als Fakt ausgeben.
+
+## Schnell-Scan bei mehreren Artikeln/Dateien
+Bei Batch-Prüfungen (mehrere Artikel) zuerst mechanisch vorfiltern, bevor man jeden Text vollständig liest — spart Zeit, weil die zwei häufigsten Verräter grep-fähig sind:
+
+```bash
+# Em-Dash-Dichte pro Datei — Häufungen sind der zuverlässigste Einzelbefund
+for f in *.mdx; do echo "$(grep -o '—' "$f" | wc -l) $f"; done | sort -rn
+```
+Richtwerte (bezogen auf einen Artikel von ~1500–2500 Wörtern): 0–5 Treffer unauffällig, 6–15 Grenzfall (Kontext prüfen), 15+ so gut wie immer ein echter Befund. Zusätzliches Signal: Wenn der übrige Korpus konsequent „–" (Halbgeviert) nutzt und ein einzelner Text durchgehend „—" (Geviert) verwendet, ist schon der Bruch selbst verdächtig — unabhängig von der absoluten Zahl.
+
+```bash
+# Kontrastformel "nicht/kein X, sondern Y" — bei Wiederholung ein Rhythmus-Tick
+for f in *.mdx; do c=$(grep -oE '\b(nicht|kein|keine)\b[^.!?]{0,80}sondern' "$f" | wc -l); [ "$c" -gt 0 ] && echo "$c $f"; done | sort -rn
+```
+1–2 Treffer sind normale, inhaltlich getragene Kontrastaussagen. Ab 4+ in einem Artikel ist es meist keine Floskel im Einzelfall, aber ein auffällig formelhafter Rhythmus über den ganzen Text — als Ganzes umformulieren, nicht nur einzelne Stellen.
+
+Beide Scans ersetzen nicht das inhaltliche Lesen (Adjektiv-Stapel, Rhythmus, Signposting sind nicht grep-fähig), sparen aber den Einstieg: erst die auffälligen Dateien priorisieren, dann vollständig lesen.
+
+## Was NICHT flaggen (False Positives)
+Nicht jedes Muster ist für sich ein Beweis. Erst bei Häufung handeln:
+- **Saubere Grammatik/Stil** ist kein Beweis für AI — viele Autoren sind geübt oder lektoriert.
+- **Ein einzelner Halbgeviertstrich** beweist nichts, erst die Häufung (siehe Schnell-Scan).
+- **Fachbegriffe im Fachkontext** nicht künstlich vereinfachen — §7-Wortlisten gelten für Floskel-Wörter, nicht für notwendige Fachsprache.
+- **Anrede/Grußformel** in E-Mails ist älter als ChatGPT — nicht anfassen.
+- **Bewusste Anapher** (wiederholter Satzanfang als Stilmittel) nur ändern, wenn die Wiederholung nichts trägt.
+- **Echte Einschränkungen/Disclaimer** (rechtlich, sicherheitsrelevant, tatsächlich im Text begründet) behalten — nur die unbegründete Rückversicherung ist der Verräter.
+- **Reale Alternativen**, die ein Leser ernsthaft abwägen könnte, bleiben stehen; nur die Scheinalternative ohne Substanz fliegt raus.
+
+## Menschliche Details behalten
+Entfernen ist nur die halbe Arbeit — am Ende muss noch eine Person durchklingen:
+- Konkrete, ungewöhnliche Details (echte Zahl, echtes Zitat, eine Eigenheit) stehen lassen statt zu verallgemeinern.
+- Uneindeutige oder gemischte Einschätzungen nicht glattbügeln — „funktioniert gut, außer bei X" ist stärker als ein glattes Lob.
+- Uneinheitliche Satzlänge ist ein Qualitätsmerkmal, kein Fehler — AI-Text tendiert zu gleichmäßigem Mittelmaß.
 
 ## Deutsche Besonderheiten
-- **Anglizismen-Floskeln**: „nahtlos", „ganzheitlich", „innovativ", „state of the art", „Game-Changer", „next level" → durch konkrete Aussage ersetzen.
+- **Anglizismen-Floskeln**: „nahtlos", „ganzheitlich", „innovativ", „state of the art", „Game-Changer", „next level", „Potenzial entfesseln"/„freisetzen" (unleash), „Komplexität meistern/navigieren" (navigate complexity) → durch konkrete Aussage ersetzen.
 - **Nominalstil** („die Bereitstellung erfolgt", „zur Optimierung der Prozesse") → in aktive Verben auflösen.
 - **Denglisch-Marketing** („empowern", „aligned", „seamless experience") → deutsche, konkrete Formulierung.
 
@@ -63,8 +111,12 @@ Entwurf gegen diese Liste scannen. Jeweils Kurz-Fix:
 ## Verhältnis zu anderen Skills
 - Nach `landingpage-from-briefing`: dieser Skill schärft die fertige Copy nach.
 - `content-clarity-a11y-check` prüft Verständlichkeit/Barrierefreiheit — ergänzend, nicht ersetzend. Beide zusammen: erst spezifisch machen, dann Klarheit/a11y prüfen.
+- `brand-voice-dna` liefert die Ziel-Stimme eines Kunden aus Bestandstexten — bei Stimmen-Matching zuerst dort die Voice-DNA ziehen, dann mit diesem Skill glätten, ohne die Stimme zu verlieren.
 
 ## Nicht verwenden
 - Reine Rechtschreib-/Grammatik-Korrektur ohne Stil-Auftrag.
 - Juristische, medizinische oder regulatorische Texte, wo Konvention vor Stimme geht.
 - Wenn der Kunde ausdrücklich konventionellen Corporate-Ton will.
+
+## Quelle
+Musterliste basiert auf Wikipedia [„Signs of AI writing"](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) (WikiProject AI Cleanup), ergänzt und für deutschsprachige, technisch-nüchterne Texte angepasst nach dem Skill [blader/humanizer](https://github.com/blader/humanizer) (MIT).
