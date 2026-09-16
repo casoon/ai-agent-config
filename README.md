@@ -1,5 +1,7 @@
 # ai-agent-config
 
+**Website:** [ai-agent-config.casoon.de](https://ai-agent-config.casoon.de/en/)
+
 A shared baseline for global AI-assistant configuration across Claude Code,
 Codex, and Mistral Vibe.
 
