@@ -160,9 +160,9 @@ subagent prompts. It deliberately does **not** cover:
 
 `GLOBAL.md` ends with a marked "private section". Personal specifics —
 preferred package managers, daily languages, commit conventions, project
-quirks — belong there. Since this repo is private, that section can be
-committed here directly; keep genuine secrets (API keys, tokens) out of it
-regardless.
+quirks — belong there. This repo is public, so fill that section only in
+your own private fork and commit it there; keep genuine secrets
+(API keys, tokens) out of it regardless.
 
 ## Change workflow
 
