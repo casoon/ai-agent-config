@@ -1,0 +1,127 @@
+---
+title: Installation
+description: Clone the repository to a permanent place and run a link script. The scripts only create symlinks and move conflicting files aside.
+order: 1
+---
+
+## Requirements
+
+- `bash`, `git` and `python3` (the Codex agent renderer and the Vibe config update use it).
+- Optional but recommended: [`nosecrets`](https://github.com/casoon/nosecrets) for the
+  pre-commit secret scan.
+
+| Platform | Status |
+| --- | --- |
+| macOS | Tested. |
+| Linux | Expected to work, not actively tested. |
+| Windows | Not supported natively. Use WSL2; inside WSL the Linux path applies. |
+
+## Clone
+
+The symlinks point into the clone, so put it somewhere permanent:
+
+```sh
+git clone https://github.com/casoon/ai-agent-config.git ~/ai-agent-config
+cd ~/ai-agent-config
+```
+
+## Link
+
+The scripts resolve the repository from their own location, so they can be run from any
+directory.
+
+<Tabs
+  label="Tool"
+  tabs={[
+    { id: 'all', label: 'All tools' },
+    { id: 'claude', label: 'Claude Code' },
+    { id: 'codex', label: 'Codex' },
+    { id: 'vibe', label: 'Mistral Vibe' },
+  ]}
+>
+<div slot="all">
+
+```sh
+./install/link-all.sh
+```
+
+Runs `link-claude.sh`, `link-codex.sh` and `link-mistral.sh` in that order and stops at the
+first error.
+
+</div>
+<div slot="claude">
+
+```sh
+./install/link-claude.sh
+```
+
+Creates `~/.claude/` if needed and links `CLAUDE.md`, `agents` and `skills`.
+
+</div>
+<div slot="codex">
+
+```sh
+./install/link-codex.sh
+```
+
+Creates `~/.codex/` if needed. If `codex-agents/` is missing it runs the renderer once; if
+`codex-config.toml` is missing it copies `codex-config.example.toml`. Then it links
+`AGENTS.md`, `config.toml`, `agents` and `skills`.
+
+</div>
+<div slot="vibe">
+
+```sh
+./install/link-mistral.sh
+```
+
+Needs an existing `~/.vibe/config.toml`; without one it prints a `skip:` line and exits
+successfully. Otherwise it adds the repository's `skills/` to `skill_paths` and `codex-agents/`
+to `agent_paths`, skipping entries that are already present.
+
+</div>
+</Tabs>
+
+A run of `link-all.sh` on a machine without Vibe, with the clone in `~/ai-agent-config`:
+
+```text
+  linked ~/.claude/CLAUDE.md -> ~/ai-agent-config/GLOBAL.md
+  linked ~/.claude/agents -> ~/ai-agent-config/agents
+  linked ~/.claude/skills -> ~/ai-agent-config/skills
+Claude config linked from ~/ai-agent-config
+  seeded codex-config.toml from codex-config.example.toml
+  linked ~/.codex/AGENTS.md -> ~/ai-agent-config/GLOBAL.md
+  linked ~/.codex/config.toml -> ~/ai-agent-config/codex-config.toml
+  linked ~/.codex/agents -> ~/ai-agent-config/codex-agents
+  linked ~/.codex/skills -> ~/ai-agent-config/skills
+Codex config linked from ~/ai-agent-config
+skip: ~/.vibe/config.toml not found — Vibe CLI not installed or not yet configured.
+All configs linked.
+```
+
+<Callout type="caution">
+  An existing `~/.claude/CLAUDE.md`, `~/.claude/skills` or similar target that is not a symlink
+  is moved to `<path>.bak` before the link is created. Merge anything you want to keep from the
+  `.bak` copy into the repository afterwards.
+</Callout>
+
+## Enable the hook
+
+If you plan to edit subagents, enable the repository's hooks once per clone:
+
+```sh
+git config core.hooksPath .githooks
+```
+
+See [the pre-commit hook](../../guides/pre-commit-hook/) for what it does.
+
+## Uninstall
+
+The scripts have no uninstall step. Remove the symlinks (for example `~/.claude/CLAUDE.md`,
+`~/.claude/agents`, `~/.claude/skills` and the four links in `~/.codex/`) and restore any
+`.bak` files you want back.
+
+## Next steps
+
+Read [how it works](../how-it-works/) for the full mapping, then
+[customise the baseline](../../guides/customizing/).

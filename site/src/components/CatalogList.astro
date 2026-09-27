@@ -1,0 +1,41 @@
+---
+import { agents, skills } from '../catalog';
+
+interface Props {
+  /** Which folder to list. */
+  of: 'agents' | 'skills';
+}
+
+const { of } = Astro.props;
+const entries = of === 'agents' ? agents : skills;
+const blob = 'https://github.com/casoon/ai-agent-config/blob/main/';
+---
+
+<p class="count">{entries.length} {of}, read from <code>{of}/</code> when this site was built.</p>
+<dl class="catalog">
+  {
+    entries.map((entry) => (
+      <div>
+        <dt id={`${of}-${entry.name}`}>
+          <a href={`${blob}${entry.file}`}>
+            <code>{entry.name}</code>
+          </a>
+        </dt>
+        <dd>{entry.description || 'No description in the frontmatter.'}</dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .catalog > div {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .catalog dt {
+    margin: 0 0 4px;
+  }
+  .catalog dd {
+    margin: 0;
+  }
+</style>

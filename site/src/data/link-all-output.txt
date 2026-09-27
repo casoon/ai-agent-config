@@ -1,0 +1,12 @@
+  linked ~/.claude/CLAUDE.md -> ~/ai-agent-config/GLOBAL.md
+  linked ~/.claude/agents -> ~/ai-agent-config/agents
+  linked ~/.claude/skills -> ~/ai-agent-config/skills
+Claude config linked from ~/ai-agent-config
+  seeded codex-config.toml from codex-config.example.toml
+  linked ~/.codex/AGENTS.md -> ~/ai-agent-config/GLOBAL.md
+  linked ~/.codex/config.toml -> ~/ai-agent-config/codex-config.toml
+  linked ~/.codex/agents -> ~/ai-agent-config/codex-agents
+  linked ~/.codex/skills -> ~/ai-agent-config/skills
+Codex config linked from ~/ai-agent-config
+skip: ~/.vibe/config.toml not found — Vibe CLI not installed or not yet configured.
+All configs linked.

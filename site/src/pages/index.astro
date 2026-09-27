@@ -1,0 +1,105 @@
+---
+import {
+  Badge,
+  Badges,
+  BuildOutput,
+  CodeBlock,
+  Facts,
+  Features,
+  Hero,
+  Install,
+  Quickstart,
+  Terminal,
+} from '@casoon/pages-theme/components';
+import Base from '@casoon/pages-theme/layouts/Base.astro';
+import { agents, codexAgentSource, skills } from '../catalog';
+import linkAll from '../data/link-all-output.txt?raw';
+
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const reviewerToml = codexAgentSource('reviewer');
+
+const install = `git clone https://github.com/casoon/ai-agent-config.git ~/ai-agent-config
+cd ~/ai-agent-config
+./install/link-all.sh`;
+
+const hook = 'git config core.hooksPath .githooks';
+---
+
+<Base>
+  <Hero
+    title="One config tree for Claude Code and Codex."
+    lead="ai-agent-config keeps global instructions, subagents and skills in a single neutral folder and symlinks them into ~/.claude and ~/.codex under the names each tool expects. Edit a file once and it is live for every tool."
+  >
+    <Install
+      label="Install"
+      commands={[
+        {
+          label: 'all tools',
+          command:
+            'git clone https://github.com/casoon/ai-agent-config.git && ai-agent-config/install/link-all.sh',
+        },
+        { label: 'Claude Code', command: './install/link-claude.sh' },
+        { label: 'Codex', command: './install/link-codex.sh' },
+        { label: 'Mistral Vibe', command: './install/link-mistral.sh' },
+      ]}
+    />
+    <Badges>
+      <Badge>MIT</Badge>
+      <Badge tone="brand">public snapshot</Badge>
+      <Badge>bash + python3</Badge>
+      <Badge>macOS tested</Badge>
+    </Badges>
+    <Terminal slot="output" title="./install/link-all.sh" dots ansi={linkAll} />
+  </Hero>
+
+  <Facts
+    items={[
+      { value: String(skills.length), label: 'skills, each a folder with a SKILL.md' },
+      { value: String(agents.length), label: 'subagents, written once in Markdown' },
+      { value: '3', label: 'tools wired up: Claude Code, Codex, Mistral Vibe' },
+      { value: '0', label: 'copy steps: every target is a symlink' },
+    ]}
+  />
+
+  <Features
+    items={[
+      {
+        title: 'One source, several tools',
+        body: 'GLOBAL.md becomes ~/.claude/CLAUDE.md and ~/.codex/AGENTS.md; skills/ is linked into both. Nothing is duplicated, so the tools cannot drift apart.',
+      },
+      {
+        title: 'Agents rendered for Codex',
+        body: 'Subagents live as Markdown with YAML frontmatter in agents/. scripts/render-codex-agents.py writes the TOML that Codex reads, and the pre-commit hook runs it on every commit.',
+      },
+      {
+        title: 'Nothing gets lost',
+        body: 'A target that exists and is not a symlink is moved to <path>.bak before the link is created. Existing symlinks are replaced.',
+      },
+      {
+        title: 'Machine state stays local',
+        body: 'The live Codex config is git-ignored and seeded from codex-config.example.toml on first install. Secrets are scanned with nosecrets before each commit.',
+      },
+    ]}
+  />
+
+  <BuildOutput
+    heading="Generated from agents/"
+    caption="codex-agents/reviewer.toml as committed: the pre-commit hook renders it from agents/reviewer.md. The showcase pairs every subagent with its generated file."
+    file="codex-agents/reviewer.toml"
+  >
+    <pre class="toml"><code set:html={escapeHtml(reviewerToml)} /></pre>
+  </BuildOutput>
+
+  <Quickstart
+    lead="Clone, link, and optionally enable the hook. The full walkthrough lives in the documentation."
+    steps={[
+      'Clone the repository to a permanent location; the symlinks point into it.',
+      'Run <code>./install/link-all.sh</code>, or one of the per-tool scripts.',
+      'Enable the pre-commit hook if you edit agents, so <code>codex-agents/</code> stays in sync.',
+    ]}
+  >
+    <CodeBlock code={install} lang="sh" label="Install" />
+    <CodeBlock code={hook} lang="sh" label="Hook" />
+  </Quickstart>
+</Base>
