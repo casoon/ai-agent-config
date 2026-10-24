@@ -11,6 +11,8 @@ export default defineConfig({
       name: 'ai-agent-config',
       description:
         'A shareable baseline configuration for Claude Code and Codex: global instructions, subagents and skills in one tree, symlinked into each tool’s config directory.',
+      tagline: 'Shared config for Claude Code and Codex',
+      website: 'https://ai-agent-config.casoon.de',
       repo: 'casoon/ai-agent-config',
       license: 'MIT',
       packages: [{ label: 'Project page', href: 'https://ai-agent-config.casoon.de' }],
