@@ -3,6 +3,7 @@ import {
   Badge,
   Badges,
   BuildOutput,
+  CallToAction,
   CodeBlock,
   Facts,
   Features,
@@ -12,6 +13,7 @@ import {
   Terminal,
 } from '@casoon/pages-theme/components';
 import Base from '@casoon/pages-theme/layouts/Base.astro';
+import { url } from '@casoon/pages-theme/url';
 import { agents, codexAgentSource, skills } from '../catalog';
 import linkAll from '../data/link-all-output.txt?raw';
 
@@ -102,4 +104,10 @@ const hook = 'git config core.hooksPath .githooks';
     <CodeBlock code={install} lang="sh" label="Install" />
     <CodeBlock code={hook} lang="sh" label="Hook" />
   </Quickstart>
+
+  <CallToAction
+    title="One config tree, linked in minutes."
+    href={url('docs/getting-started/installation/')}
+    label="Read the installation guide"
+  />
 </Base>
