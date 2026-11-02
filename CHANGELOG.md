@@ -30,6 +30,7 @@ Unreleased, with the date of each export.
 
 ### Changed
 
+- **Pages:** the project site uses the current shared theme (0.12.5).
 - Cloudflare reference docs tightened: flagship, pipelines, r2-data-catalog, r2-sql
   (2026-08-26).
 - `skill-authoring`, `agent-config-authoring` and `i18n` synced with the private baseline
